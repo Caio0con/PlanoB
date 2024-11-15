@@ -1,0 +1,37 @@
+version: '3'
+services:
+  projetoapi:
+    image: <sua_imagem_projetoapi>
+    container_name: projetoapi
+    ports:
+      - "8080:8080"
+    networks:
+      - monitoramento
+    depends_on:
+      - prometheus
+
+  prometheus:
+    image: prom/prometheus
+    container_name: prometheus
+    volumes:
+      - /home/caioocon/Downloads/ProjetoAPi/prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - "9090:9090"
+    networks:
+      - monitoramento
+
+  grafana:
+    image: grafana/grafana
+    container_name: grafana
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    ports:
+      - "3000:3000"
+    networks:
+      - monitoramento
+    depends_on:
+      - prometheus
+
+networks:
+  monitoramento:
+    driver: bridge
