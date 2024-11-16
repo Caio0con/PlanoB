@@ -13,6 +13,7 @@
         "packagesPath": "/home/caioocon/.nuget/packages/",
         "outputPath": "/home/caioocon/Downloads/ProjetoApi/ProjetoApi/obj/",
         "projectStyle": "PackageReference",
+        "UsingMicrosoftNETSdk": false,
         "configFilePaths": [
           "/home/caioocon/.nuget/NuGet/NuGet.Config"
         ],
