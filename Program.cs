@@ -1,8 +1,10 @@
 using Prometheus;
 using Microsoft.OpenApi.Models;
 
+
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
+builder.Services.AddMetrics(); 
 
 //criar swagger
 builder.Services.AddEndpointsApiExplorer();
@@ -18,7 +20,7 @@ app.UseSwagger();
 app.UseSwaggerUI(c => 
 {
     c.SwaggerEndpoint("/swagger/v1/swagger.json", "Pedido");
-    c.RoutePrefix = string.Empty; // Define o Swagger UI na raiz (opcional)
+    c.RoutePrefix = string.Empty;   
 });
 
 app.UseHttpMetrics(); //para monitorar as requisições HTTP, exportando métricas para o Prometheus
