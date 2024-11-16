@@ -1,4 +1,3 @@
-
 version: '3.8'
 
 services:
@@ -6,13 +5,14 @@ services:
     image: mcr.microsoft.com/dotnet/sdk:8.0
     container_name: api
     ports:
-      - "5148:80"
+      - "5148:5000"
+    
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
     volumes:
       - .:/app
     working_dir: /app
-    command: ["dotnet", "run", "--urls", "http://*:80"]
+    command: ["dotnet", "run", "--urls", "http://*:5000"]
     depends_on:
       - prometheus
 
@@ -22,15 +22,22 @@ services:
     ports:
       - "9090:9090"
     volumes:
-      - /home/caioocon/Downloads/ProjetoApi/ProjetoApi/prometheus.yml:/etc/prometheus/prometheus.yml
+      - /home/caioocon/Downloads/ProjetoApi/ProjetoApi/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+    healthcheck:
+      test: ["CMD", "curl", "--silent", "--fail", "http://localhost:9090/-/healthy"]
+      interval: 30s
+      retries: 3
+      start_period: 10s
+      timeout: 10s
 
-    
   grafana:
     image: grafana/grafana:latest
     container_name: grafana
     ports:
       - "3000:3000"
     environment:
-        - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
     depends_on:
-        - prometheus
+      - prometheus
