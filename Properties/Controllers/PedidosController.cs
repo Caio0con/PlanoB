@@ -64,7 +64,7 @@ public class PedidosController : ControllerBase
     
     public IActionResult ListarPedidos()
     {
-        //Thread.Sleep(10000);
+        Thread.Sleep(10000);
         return Ok(Pedidos);
     }
 }
